@@ -19,6 +19,7 @@ contract Competition {
 
     mapping (address => Restaurant) public restaurants;
     mapping (uint256 => Customer) public customers;
+    mapping (address => address) public winners;
 
     address public owner;
 
@@ -29,12 +30,12 @@ contract Competition {
     }
 
     function add_restaurant_to_competition(string name, uint256 expiration) public payable {
-        //require(restaurants[addr] == 0); to ensure not again in competition
+        //require(restaurants[msg.sender] == 0); to ensure not again in competition
         Restaurant restaurant;
         restaurant.addr = msg.sender;
         restaurant.name = name;
         restaurant.amount = msg.value;
-        restaurant.expiration = expiration;
+        restaurant.expiration = now + expiration;
         restaurant.length = 0;
         restaurants[msg.sender] = restaurant;
     }
@@ -55,17 +56,19 @@ contract Competition {
         restaurants[restaurant].length += 1;
     }
 
-    function get_winner(address restaurant) view public returns(address) {
-        require(now >= restaurants[restaurant].expiration);
+    function get_winner(address restaurant) public {
+        require(restaurants[restaurant].expiration <= now);
         require(restaurants[restaurant].winner == 0);
         uint256 length = restaurants[restaurant].length;
         uint randomnumber = uint(keccak256(abi.encodePacked(now, msg.sender))) % length;
         restaurants[restaurant].winner = restaurants[restaurant].customers[randomnumber].addr;
+        winners[restaurant] = restaurants[restaurant].customers[randomnumber].addr;
 
         restaurants[restaurant].winner.transfer(restaurants[restaurant].amount);
+    }
 
-        return restaurants[restaurant].customers[randomnumber].addr;
-
+    function show_winner(address restaurant) view public returns(address) {
+        return winners[restaurant];
     }
 
 

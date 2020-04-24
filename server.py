@@ -26,18 +26,18 @@ tx_receipt = w3.eth.waitForTransactionReceipt(tx_hash)
 competition = w3.eth.contract(address=tx_receipt.contractAddress, abi=contract_interface['abi'])
 
 @app.route('/')
-@app.route('/index')
+@app.route('/restaurant')
 def hello():
-    return render_template('template.html', contractAddress = competition.address.lower(), contractABI = json.dumps(contract_interface['abi'])) # can include name = "name" as well, not sure where it can be used tho
+    return render_template('restaurant.html', contractAddress = competition.address.lower(), contractABI = json.dumps(contract_interface['abi'])) # can include name = "name" as well, not sure where it can be used tho
 
 @app.route('/intro')
 def intro():
     return render_template('intro.html', contractAddress = competition.address.lower(), contractABI = json.dumps(contract_interface['abi']))
 
 
-@app.route('/test')
+@app.route('/customer')
 def testing():
-    return render_template('template_2.html', contractAddress = competition.address.lower(), contractABI = json.dumps(contract_interface['abi']))
+    return render_template('customer.html', contractAddress = competition.address.lower(), contractABI = json.dumps(contract_interface['abi']))
 
 if __name__ == '__main__':
     app.run()

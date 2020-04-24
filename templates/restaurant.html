@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Restaurants</title>
+        <meta charset="utf-8" />
+    		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <style>
+          .title {
+            border: none;
+            padding: 15px 50px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 20px;
+          }
+
+          .input_class {
+            display: inline-block;
+          }
+
+          .restaurant_border {
+            display: inline-block;
+            width: 320px;
+            padding: 10px;
+            border: 5px solid green;
+            margin: 0;
+          }
+
+        </style>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}" />
+        <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+  			<script src="{{ url_for('static', filename='assets/js/skel.min.js') }}"></script>
+  			<script src="{{ url_for('static', filename='assets/js/util.js') }}"></script>
+  			<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+        <script lang="javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script lang="javascript">
+            var contract;
+
+            $(document).ready(function() {
+                if (typeof web3 !== 'undefined') {
+                    var sc_address = "{{contractAddress}}";
+                    var contractABI = web3.eth.contract(JSON.parse('{{contractABI | safe}}'));
+                    var contractInstance = contractABI.at(sc_address);
+                    contract = contractInstance;
+
+                    $("a#call_add_restaurant_to_competition").click(function(){
+                        var name = $("input#restaurant_name").val();
+                        var expiration = $("input#restaurant_expiration").val();
+                        contractInstance.add_restaurant_to_competition(name, expiration, {from:web3.eth.accounts[0], 'value': 1}, function(error, result){
+                          if (error) {
+                              alert("Please, connect to the network");
+                              reject(error);
+                          }
+                          else {
+                            $('#inserthere').append("<div class='restaurant_border'>" + "Restaurant: " + name + "<br>" + "Offer expires: " + expiration + "</div>");
+                            $('#inserthere').append("<h1>" + web3.eth.accounts[0] + "</h1>");
+                          }
+                          // else {
+                          //   $("#includedContent").load("customer #commitment");
+                          //   $("#test").hide();
+                          // }
+                        });
+                    });
+                    $("a#call_get_winner").click(function(){
+                        var address_1 = $("input#restaurant_address_1").val();
+                        contractInstance.get_winner(address_1, {from:web3.eth.accounts[0]}, function(error, result){
+                          if (error) {
+                              alert("Please, connect to the network");
+                              reject(error);
+                          } 
+                        });
+                    });
+                    $("a#call_show_winner").click(function(){
+                        var address_1 = $("input#restaurant_address_1").val();
+                        contractInstance.show_winner(address_1, {from:web3.eth.accounts[0]}, function(error, result){
+                          if (error) {
+                              alert("Please, connect to the network");
+                              reject(error);
+                          }
+                          else {
+                              $("span#winner").text(result);
+                          }
+                        });
+                    });
+                    $("a#call_claimTimeout").click(function(){
+                        contractInstance.claimTimeout({from:web3.eth.accounts[0]}, function(error, result){
+                          if (error) {
+                              alert("Please, connect to the network");
+                              reject(error);
+                          }
+                          else {
+                              $("span#winner").text(result);
+                          }
+                        });
+                    });
+                }
+                else {
+                    alert("Please, install Metamask!");
+                }
+            });
+        </script>
+    </head>
+    <body class="subpage">
+      <!-- Header -->
+  			<header id="header">
+  				<div class="inner">
+  					<a href="restaurant" class="logo">Restaurants</a>
+  					<nav id="nav">
+  						<a href="intro">Home</a>
+  						<a href="customer">Customers Page</a>
+  					</nav>
+  					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+  				</div>
+  			</header>
+
+        <section id="three" class="wrapper">
+  				<div class="inner">
+  					<header class="title" >
+  						<h2 style="color:black">Welcome to the Restaurant platform!</h2>
+  					</header>
+            <div class="flex flex-2">
+              <article>
+
+                  <br />
+                    <div class = "input_class">
+                      <input type="text" id="restaurant_name" value="Insert name of restaurant here"/>
+                    </div>
+                    <div class = "input_class">
+                      <input type="text" id="restaurant_expiration" value="Insert expiration here"/>
+                    </div>
+                  <br />
+                  <footer>
+    								<a href="#" id="call_add_restaurant_to_competition" class="button special">Add to Competition</a>
+    							</footer>
+                  <br />
+
+                  <div id="includedContent"></div>
+                  <div id="inserthere"></div>
+                  <br />
+
+                  <div class = "input_class">
+                    <input type="text" id="restaurant_address_1" value="Insert restaurant address here"/>
+                  </div>
+                  <div class = "input_class">
+                    <p><span id="winner">No winner yet</span></p>
+                  </div>
+                  <footer>
+    								<a href="#" id="call_get_winner" class="button special">Get winner!</a>
+    							</footer>
+                  <footer>
+    								<a href="#" id="call_show_winner" class="button special">Show winner!</a>
+    							</footer>
+
+
+  						</article>
+            </div>
+  				</div>
+
+
+
+
+
+  			</section>
+
+
+
+    </body>
+</html>
