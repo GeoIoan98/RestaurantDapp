@@ -69,7 +69,7 @@
                           if (error) {
                               alert("Please, connect to the network");
                               reject(error);
-                          } 
+                          }
                         });
                     });
                     $("a#call_show_winner").click(function(){
@@ -84,17 +84,36 @@
                           }
                         });
                     });
-                    $("a#call_claimTimeout").click(function(){
-                        contractInstance.claimTimeout({from:web3.eth.accounts[0]}, function(error, result){
+                    $("a#call_sign_message").click(function(){
+                        const message = web3.sha3($("input#message_to_sign").val());
+                        web3.eth.sign(web3.eth.accounts[0], message, function(error, result) {
+                            if (error) {
+                                alert("Error");
+                                reject(error);
+                            }
+                            else {
+                                  // $("span#sign").html('signature: ' + result);
+                                  // $("span#sign").html('signature: ' + result);
+                                  $("span#sign").text(result);
+                                  $("span#hashed").text(message);
+                            }
+                        });
+                    });
+                    $("a#call_verify_message").click(function(){
+                        var signed = $("input#s123").val();
+                        var hashed = $("input#h123").val();
+                        contractInstance.recover(hashed, signed, {from:web3.eth.accounts[0]}, function(error, result){
                           if (error) {
                               alert("Please, connect to the network");
                               reject(error);
                           }
                           else {
-                              $("span#winner").text(result);
+                              $("span#returned").text(result);
                           }
                         });
                     });
+
+
                 }
                 else {
                     alert("Please, install Metamask!");
@@ -140,6 +159,58 @@
                   <div id="inserthere"></div>
                   <br />
 
+                  <header class="align-center">
+                    <h2> Signature Section below! </h2>
+                  </header>
+
+                  <br />
+                    <div class = "input_class">
+                      <input type="text" id="message_to_sign" value="Insert message to sign here"/>
+                    </div>
+                  <br />
+                  <div class = "input_class">
+                    <p><span id="hashed">No hashed yet</span></p>
+                  </div>
+                  <div class = "input_class">
+                    <p><span id="sign">No signature yet</span></p>
+                  </div>
+                  <br />
+                  <footer>
+                    <a href="#" id="call_sign_message" class="button special">Sign</a>
+                  </footer>
+                  <br />
+
+                  <br />
+                    <div class = "input_class">
+                      <input type="text" id="h123" value="Insert hash here"/>
+                    </div>
+                    <div class = "input_class">
+                      <input type="text" id="s123" value="Insert sign here"/>
+                    </div>
+                  <br />
+
+                  <footer>
+                    <a href="#" id="call_verify_message" class="button special">Verify</a>
+                  </footer>
+                  <br />
+
+
+                  <div class = "input_class">
+                    <p><span id="returned"></span></p>
+                  </div>
+
+                  <br />
+
+
+
+
+                  <header class="align-center">
+                    <h2 style="color:black"> Winner Section below! </h2>
+                  </header>
+
+
+
+
                   <div class = "input_class">
                     <input type="text" id="restaurant_address_1" value="Insert restaurant address here"/>
                   </div>
@@ -149,6 +220,7 @@
                   <footer>
     								<a href="#" id="call_get_winner" class="button special">Get winner!</a>
     							</footer>
+                  <br />
                   <footer>
     								<a href="#" id="call_show_winner" class="button special">Show winner!</a>
     							</footer>
