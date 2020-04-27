@@ -40,13 +40,13 @@ contract Competition {
         restaurants[msg.sender] = restaurant;
     }
 
-    function add_customer_to_competition(string name, address restaurant) public {
+    function add_customer_to_competition(string name, address restaurant, bytes32 hash, bytes signature) public {
         require(restaurants[msg.sender].addr == 0); // customer is not a restaurant
         require(now < restaurants[restaurant].expiration); // check that it is within the given period
-
         for (uint256 i = 0; i < restaurants[restaurant].length; i += 1) {
             require(restaurants[restaurant].customers[i].addr != msg.sender); // First time I am added to the competition, checks against replay attack
         }
+        require(recover(hash, signature) == restaurant); // verify the signature
 
         Customer customer;
         customer.addr = msg.sender;

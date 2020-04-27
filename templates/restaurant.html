@@ -20,7 +20,7 @@
 
           .restaurant_border {
             display: inline-block;
-            width: 320px;
+            width: 700px;
             padding: 10px;
             border: 5px solid green;
             margin: 0;
@@ -48,19 +48,18 @@
                     $("a#call_add_restaurant_to_competition").click(function(){
                         var name = $("input#restaurant_name").val();
                         var expiration = $("input#restaurant_expiration").val();
-                        contractInstance.add_restaurant_to_competition(name, expiration, {from:web3.eth.accounts[0], 'value': 1}, function(error, result){
+                        contractInstance.add_restaurant_to_competition(name, expiration, {from:web3.eth.accounts[0], 'value': 1000000000000000000}, function(error, result){
                           if (error) {
                               alert("Please, connect to the network");
                               reject(error);
                           }
                           else {
-                            $('#inserthere').append("<div class='restaurant_border'>" + "Restaurant: " + name + "<br>" + "Offer expires: " + expiration + "</div>");
-                            $('#inserthere').append("<h1>" + web3.eth.accounts[0] + "</h1>");
+                            $('#willhide').hide();
+                            var current_time = Date.now();
+                            var d = new Date(current_time);
+                            expiration = d;
+                            $('#inserthere').append("<div class='restaurant_border'>" + "Restaurant name: " + name + "<br>" + "Offer expires: " + expiration + "<br>" + "Restaurant Address: " + web3.eth.accounts[0] + "</div>");
                           }
-                          // else {
-                          //   $("#includedContent").load("customer #commitment");
-                          //   $("#test").hide();
-                          // }
                         });
                     });
                     $("a#call_get_winner").click(function(){
@@ -92,26 +91,12 @@
                                 reject(error);
                             }
                             else {
-                                  // $("span#sign").html('signature: ' + result);
-                                  // $("span#sign").html('signature: ' + result);
-                                  $("span#sign").text(result);
-                                  $("span#hashed").text(message);
+                                  $("span#hashed").html('Hashed message: ' + message);
+                                  $("span#sign").html('Signature: ' + result);
                             }
                         });
                     });
-                    $("a#call_verify_message").click(function(){
-                        var signed = $("input#s123").val();
-                        var hashed = $("input#h123").val();
-                        contractInstance.recover(hashed, signed, {from:web3.eth.accounts[0]}, function(error, result){
-                          if (error) {
-                              alert("Please, connect to the network");
-                              reject(error);
-                          }
-                          else {
-                              $("span#returned").text(result);
-                          }
-                        });
-                    });
+
 
 
                 }
@@ -155,9 +140,18 @@
     							</footer>
                   <br />
 
-                  <div id="includedContent"></div>
+                  <header class="title" >
+        						<h2 style="color:black">Competitions</h2>
+        					</header>
+
+                  <div id="willhide">
+                    <h4 style="color:black">No competitions yet</h4>
+                  </div>
+
                   <div id="inserthere"></div>
                   <br />
+
+                  <!-- Signature Section -->
 
                   <header class="align-center">
                     <h2> Signature Section below! </h2>
@@ -179,37 +173,13 @@
                     <a href="#" id="call_sign_message" class="button special">Sign</a>
                   </footer>
                   <br />
-
-                  <br />
-                    <div class = "input_class">
-                      <input type="text" id="h123" value="Insert hash here"/>
-                    </div>
-                    <div class = "input_class">
-                      <input type="text" id="s123" value="Insert sign here"/>
-                    </div>
                   <br />
 
-                  <footer>
-                    <a href="#" id="call_verify_message" class="button special">Verify</a>
-                  </footer>
-                  <br />
-
-
-                  <div class = "input_class">
-                    <p><span id="returned"></span></p>
-                  </div>
-
-                  <br />
-
-
-
+                  <!-- Winner Section -->
 
                   <header class="align-center">
                     <h2 style="color:black"> Winner Section below! </h2>
                   </header>
-
-
-
 
                   <div class = "input_class">
                     <input type="text" id="restaurant_address_1" value="Insert restaurant address here"/>

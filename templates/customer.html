@@ -32,7 +32,9 @@
                     $("a#call_add_customer_to_competition").click(function(){
                         var name = $("input#customer_name").val();
                         var address = $("input#restaurant_address").val();
-                        contractInstance.add_customer_to_competition(name, address, {from:web3.eth.accounts[0]}, function(error, result){
+                        var signed = $("input#s123").val();
+                        var hashed = $("input#h123").val();
+                        contractInstance.add_customer_to_competition(name, address, hashed, signed, {from:web3.eth.accounts[0]}, function(error, result){
                           if (error) {
                               alert("Please, connect to the network");
                               reject(error);
@@ -63,6 +65,18 @@
                           }
                         });
                     });
+                    // $("a#call_verify_message").click(function(){
+                    //
+                    //     contractInstance.recover(hashed, signed, {from:web3.eth.accounts[0]}, function(error, result){
+                    //       if (error) {
+                    //           alert("Please, connect to the network");
+                    //           reject(error);
+                    //       }
+                    //       else {
+                    //           $("span#returned").text(result);
+                    //       }
+                    //     });
+                    // });
                   }
             });
         </script>
@@ -96,6 +110,22 @@
                   <div class = "input_class">
                     <input type="text" id="customer_name" value="Insert your name here"/>
                   </div>
+                  <div class = "input_class">
+                    <input type="text" id="h123" value="Insert hash here"/>
+                  </div>
+                  <div class = "input_class">
+                    <input type="text" id="s123" value="Insert sign here"/>
+                  </div>
+                <br />
+
+                <!-- <footer>
+                  <a href="#" id="call_verify_message" class="button special">Verify</a>
+                </footer> -->
+
+                <!-- <div>
+                  <p><span id="returned"></span></p>
+                </div> -->
+
                 <br />
 
 
