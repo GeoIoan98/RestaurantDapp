@@ -61,25 +61,14 @@
                               reject(error);
                           }
                           else {
-                              $("span#winner").text(result);
+                              $("span#winner").text("Winner: " + result);
                           }
                         });
                     });
-                    // $("a#call_verify_message").click(function(){
-                    //
-                    //     contractInstance.recover(hashed, signed, {from:web3.eth.accounts[0]}, function(error, result){
-                    //       if (error) {
-                    //           alert("Please, connect to the network");
-                    //           reject(error);
-                    //       }
-                    //       else {
-                    //           $("span#returned").text(result);
-                    //       }
-                    //     });
-                    // });
                   }
             });
         </script>
+
     </head>
     <body class="subpage">
       <!-- Header -->
@@ -136,33 +125,6 @@
                 <br />
 
 
-
-
-                <!-- <header class="align-center">
-                  <h2> Signature Section below! </h2>
-                </header>
-
-                <br />
-                  <div class = "input_class">
-                    <input type="text" id="message_to_sign" value="Insert message to sign here"/>
-                  </div>
-                <br />
-                <div class = "input_class">
-                  <p><span id="sign">No signature yet</span></p>
-                </div>
-                <br />
-                <footer>
-                  <a href="#" id="call_sign_message" class="button special">Sign</a>
-                </footer>
-                <br /> -->
-
-
-
-
-
-
-
-
                 <header class="align-center">
                   <h2> Winner Section below! </h2>
                 </header>
@@ -183,8 +145,6 @@
                 <footer>
                   <a href="#" id="call_show_winner" class="button special">Show winner!</a>
                 </footer>
-
-
 
   						</article>
             </div>

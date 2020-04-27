@@ -30,7 +30,7 @@ contract Competition {
     }
 
     function add_restaurant_to_competition(string name, uint256 expiration) public payable {
-        //require(restaurants[msg.sender] == 0); to ensure not again in competition
+        require(restaurants[msg.sender].addr == 0); // to ensure not again in competition
         Restaurant restaurant;
         restaurant.addr = msg.sender;
         restaurant.name = name;

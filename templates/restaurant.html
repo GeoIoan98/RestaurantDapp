@@ -48,6 +48,7 @@
                     $("a#call_add_restaurant_to_competition").click(function(){
                         var name = $("input#restaurant_name").val();
                         var expiration = $("input#restaurant_expiration").val();
+                        var expiration_copy = expiration;
                         contractInstance.add_restaurant_to_competition(name, expiration, {from:web3.eth.accounts[0], 'value': 1000000000000000000}, function(error, result){
                           if (error) {
                               alert("Please, connect to the network");
@@ -59,6 +60,14 @@
                             var d = new Date(current_time);
                             expiration = d;
                             $('#inserthere').append("<div class='restaurant_border'>" + "Restaurant name: " + name + "<br>" + "Offer expires: " + expiration + "<br>" + "Restaurant Address: " + web3.eth.accounts[0] + "</div>");
+                            setTimeout(function(){ // test to trigger automatically
+                                var address_1 = $("input#restaurant_address_1").val();
+                                contractInstance.get_winner(address_1, {from:web3.eth.accounts[0]}, function(error, result){
+                                  if (error) {
+                                      alert("Please, connect to the network");
+                                      reject(error);
+                                  }
+                                }); }, expiration_copy*1000);
                           }
                         });
                     });
@@ -79,7 +88,7 @@
                               reject(error);
                           }
                           else {
-                              $("span#winner").text(result);
+                              $("span#winner").text("Winner: " + result);
                           }
                         });
                     });
