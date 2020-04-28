@@ -60,7 +60,7 @@ contract Competition {
         require(restaurants[restaurant].expiration <= now);
         require(restaurants[restaurant].winner == 0);
         uint256 length = restaurants[restaurant].length;
-        uint randomnumber = uint(keccak256(abi.encodePacked(now, msg.sender))) % length;
+        uint randomnumber = uint(keccak256(abi.encodePacked(now, block.timestamp))) % length;
         restaurants[restaurant].winner = restaurants[restaurant].customers[randomnumber].addr;
         winners[restaurant] = restaurants[restaurant].customers[randomnumber].addr;
         emit informWinner(winners[restaurant]);
