@@ -56,9 +56,6 @@
                           }
                           else {
                             $('#willhide').hide();
-                            // var current_time = Date.now();
-                            // var d = new Date(current_time);
-                            // expiration = d;
                             var d = new Date(new Date().getTime() + (expiration_copy*1000));
                             expiration = d;
                             $('#inserthere').append("<div class='restaurant_border'>" + "Restaurant name: " + name + "<br>" + "Offer expires: " + expiration + "<br>" + "Restaurant Address: " + web3.eth.accounts[0] + "</div>");
