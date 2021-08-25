@@ -1,8 +1,6 @@
 # RestaurantDapp
 
-Anyone can use any feature from my Decentralized Application after letting me know via e-mail (geoioan25@yahoo.com).
-
-I have created a simple Decentralized Application(Dapp) using solidity, python, javascript, Ganache and Metamask. Restaurants are able to create a competition via a web front-end and give Ether to a random future customer. Customers are able to join the competition by providing the Restaurant address, name, as well as hash message and signature as provided by the restaurant when the customer has visited. On expiration, a random winner from the competition automatically receives the Ether from the restaurant. 
+A Simple Decentralized Application(Dapp) created using solidity, python, javascript, Ganache and Metamask. Restaurants are able to create a competition via a web front-end and give Ether to a random future customer. Customers are able to join the competition by providing the Restaurant address, name, as well as hash message and signature as provided by the restaurant when the customer has visited. On expiration, a random winner from the competition automatically receives the Ether from the restaurant. 
 
 ## Prerequisites
 
